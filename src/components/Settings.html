@@ -1,0 +1,200 @@
+<form class="settings">
+  <fieldset class="fieldset">
+    <legend class="fieldset__legend h5">Grid</legend>
+    <label class="control">
+      <span class="control__label">Enabled:</span>
+      <input
+        class="control__input"
+        type="checkbox"
+        bind:checked="$gridEnabled"
+      />
+    </label>
+    <label class="control">
+      <span class="control__label">Squares per row:</span>
+      <input
+        class="control__input control__input--full-width"
+        type="number"
+        bind:value="$gridSquaresPerRow"
+        min="1"
+        max="50"
+        step="1"
+      />
+    </label>
+    <label class="control">
+      <span class="control__label">Color:</span>
+      <input
+        class="control__input"
+        type="color"
+        bind:value="$gridColor"
+      />
+    </label>
+    <label class="control">
+      <span class="control__label">Opacity:</span>
+      <input
+        class="control__input control__input--full-width"
+        type="range"
+        min="1"
+        max="100"
+        step="1"
+        bind:value="$gridOpacity"
+      />
+      <span
+        class="control__display"
+      >{ $gridOpacity }%</span>
+    </label>
+  </fieldset>
+  <fieldset class="fieldset">
+    <legend class="fieldset__legend h5">Map</legend>
+    <label
+      class="control"
+      class:control--disabled="$mapFitWidth || $mapFitHeight"
+    >
+      <span class="control__label">Scale:</span>
+      <input
+        class="control__input control__input--full-width"
+        type="range"
+        min="1"
+        max="100"
+        step="1"
+        bind:value="$mapScale"
+        disabled="{$mapFitWidth || $mapFitHeight}"
+      />
+      <span
+        class="control__display"
+      >{ $mapScale }%</span>
+    </label>
+    <label class="control">
+      <span class="control__label">Fit to screen width:</span>
+      <input
+        class="control__input"
+        type="checkbox"
+        bind:checked="$mapFitWidth"
+      />
+    </label>
+    <label class="control">
+      <span class="control__label">Fit to screen height:</span>
+      <input
+        class="control__input"
+        type="checkbox"
+        bind:checked="$mapFitHeight"
+      />
+    </label>
+  </fieldset>
+  <fieldset class="fieldset">
+    <legend class="fieldset__legend h5">Fog</legend>
+    <label class="control">
+      <span class="control__label">Enabled:</span>
+      <input
+        class="control__input"
+        type="checkbox"
+        bind:checked="$fogEnabled"
+      />
+    </label>
+    <label class="control">
+      <span class="control__label">Opacity:</span>
+      <input
+        class="control__input control__input--full-width"
+        type="range"
+        min="1"
+        max="100"
+        step="1"
+        bind:value="$fogOpacity"
+      />
+      <span
+        class="control__display"
+      >{ $fogOpacity }%</span>
+    </label>
+    <label class="control">
+      <span class="control__label">Brush size:</span>
+      <input
+        class="control__input control__input--full-width"
+        type="range"
+        bind:value="$fogBrushSize"
+        min="10"
+        max="300"
+        step="10"
+      />
+      <span
+        class="control__display"
+      >{ $fogBrushSize }px</span>
+    </label>
+    <label class="control">
+      <span class="control__label">Brush effect:</span>
+      <select
+        class="control__input control__input--full-width"
+        bind:value="$fogBrushEffect"
+      >
+        <option value="add">Add fog</option>
+        <option value="remove">Remove fog</option>
+      </select>
+    </label>
+  </fieldset>
+</form>
+
+<style>
+  .settings {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    max-width: 20rem;
+    background: white;
+    padding: 0.75rem 0.5rem;
+    margin-top: 1rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+  }
+  .settings::before {
+    position: absolute;
+    top: -0.625rem;
+    left: 0.75rem;
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 0.5rem solid transparent;
+    border-right: 0.5rem solid transparent;
+    border-bottom: 0.625rem solid #ffffff;
+  }
+  .fieldset:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+  }
+  .fieldset__legend {
+    padding: 0 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .control {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem;
+    font-weight: 500;
+  }
+  .control.control--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .control__label {
+    white-space: nowrap;
+    margin-right: 1rem;
+  }
+  .control__input {
+    min-width: 0;
+    font-weight: normal;
+  }
+  .control__input--full-width {
+    width: 100%;
+  }
+  .control__display {
+    width: 6rem;
+    margin-left: 1rem;
+    text-align: left;
+  }
+  .control:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  .control:focus-within {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+</style>

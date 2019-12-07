@@ -1,0 +1,86 @@
+<img
+  ref:map
+  class="map"
+  alt="Battlemap"
+  on:load="mapLoaded()"
+  src="https://i.redd.it/jw7quc7o5oc31.jpg"
+  style="width: {$mapWidth}px; height: {$mapHeight}px;"
+>
+
+<!--
+  https://i.redd.it/jw7quc7o5oc31.jpg
+  https://i.imgur.com/yebDJ2g.jpg
+  https://i.imgur.com/xBY0M71.jpg
+-->
+
+<style>
+  .map {
+    position: relative;
+    display: block;
+    width: auto;
+    height: auto;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+</style>
+
+<script>
+  export default {
+    oncreate () {
+			const onState = this.store.on('state', ({ changed }) => {
+        if (
+          changed.mapFitWidth ||
+          changed.mapFitHeight ||
+          changed.mapScale
+        ) {
+          this.updateSizes()
+        }
+      })
+      const onResize = () => {
+        this.updateSizes()
+      }
+      window.addEventListener('resize', onResize, true)
+
+			// Listeners are not automatically removed — cancel them to prevent memory leaks
+			this.on('destroy', onState.cancel);
+			this.on('destroy', () => {
+        window.removeEventListener('resize', onResize, true)
+      })
+    },
+    methods: {
+      mapLoaded () {
+        this.store.set({
+          mapLoaded: true
+        })
+        this.updateSizes()
+      },
+      updateSizes () {
+        const { mapFitWidth, mapFitHeight, mapScale } = this.store.get()
+
+        let width = this.refs.map.naturalWidth
+        let height = this.refs.map.naturalHeight
+        const ratio = height / width
+
+        if (mapFitWidth && mapFitHeight) {
+          width = window.innerWidth
+          height = window.innerHeight
+        } else if (mapFitWidth) {
+          width = window.innerWidth
+          height = width * ratio
+        } else if (mapFitHeight) {
+          height = window.innerHeight
+          width = height / ratio
+        } else {
+          width = width * (mapScale / 100 )
+          height = height * (mapScale / 100 )
+        }
+
+        this.store.set({
+          mapWidth: width,
+          mapHeight: height
+        })
+      }
+    }
+  }
+</script>

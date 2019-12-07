@@ -1,0 +1,107 @@
+<header
+  class="header"
+  class:header--open="showSettings"
+>
+  { #if showSettings }
+    <button
+      class="button"
+      aria-label="Close settings"
+      on:click="set({ showSettings: false })"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="icon"
+      >
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <Settings />
+  { :else }
+    <button
+      class="button"
+      aria-label="Settings"
+      on:click="set({ showSettings: true })"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="icon"
+      >
+        <circle cx="12" cy="12" r="3"></circle>
+        <path
+          d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+        ></path>
+      </svg>
+    </button>
+  { /if }
+</header>
+
+<style>
+  .header {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 30;
+  }
+  .header.header--open {
+    right: 1rem;
+    bottom: 1rem;
+  }
+  .button {
+    appearance: none;
+    /* -webkit-appearance: none; */
+    outline: none;
+    border: none;
+    cursor: pointer;
+    margin: 0;
+    color: inherit;
+    padding: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 9999px;
+    box-shadow: var(--shadow);
+    transition: background-color 0.25s ease;
+  }
+  .button:not(:focus){
+    outline: none;
+  }
+  .button:hover {
+    background-color: rgba(255, 255, 255, 1);
+  }
+  .button:focus-within {
+    background-color: rgba(255, 255, 255, 1);
+  }
+  .icon {
+    display: block;
+  }
+</style>
+
+<script>
+  import Settings from "./Settings.html";
+
+  export default {
+    data() {
+      return {
+        showSettings: false
+      };
+    },
+    components: {
+      Settings
+    }
+  };
+</script>

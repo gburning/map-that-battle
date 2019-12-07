@@ -1,0 +1,147 @@
+<div
+  class="fog"
+  class:fog--hidden="!$fogEnabled"
+>
+  <canvas
+    ref:canvas
+    on:mousedown="start(event)"
+    on:mousemove="move(event)"
+    on:mouseup="stop(event)"
+    on:mouseleave="stop(event)"
+  style="opacity: {$fogOpacity / 100};"
+  ></canvas>
+  <canvas
+    style="display: none;"
+    ref:tempCanvas
+  ></canvas>
+</div>
+
+<style>
+  .fog {
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .fog--hidden {
+    display: none;
+  }
+</style>
+
+<script>
+  export default {
+    oncreate () {
+      const onLoad = () => {
+        const {
+          mapWidth,
+          mapHeight
+        } = this.store.get()
+
+        this.refs.canvas.width = mapWidth
+        this.refs.canvas.height = mapHeight
+
+        const canvas = this.refs.canvas
+        const context = canvas.getContext('2d')
+        context.fillStyle = '#000'
+        context.fillRect(0, 0, canvas.width, canvas.height)
+        this.set({
+          context: context
+        })
+
+        const onMapResize = this.store.on('state', ({ changed }) => {
+          if (
+            changed.mapWidth ||
+            changed.mapHeight
+          ) {
+            const {
+              mapWidth,
+              mapHeight
+            } = this.store.get()
+
+            this.updateSize(mapWidth, mapHeight)
+          }
+        })
+        this.on('destroy', onMapResize.cancel)
+      }
+      window.addEventListener('load', onLoad, true)
+
+			this.on('destroy', () => {
+        window.removeEventListener('load', onLoad, true)
+      });
+    },
+    data () {
+      return {
+        painting: false,
+        context: null
+      }
+    },
+    methods: {
+      start (e) {
+        this.painting = true
+        this.draw(e)
+      },
+      move (e) {
+        if (!this.painting) return
+        this.draw(e)
+      },
+      stop (e) {
+        this.painting = false
+        const {
+          context,
+        } = this.get()
+        context.beginPath()
+      },
+      draw (e) {
+        // Store this somewhere else and only update on resize
+        const rect = this.refs.canvas.getBoundingClientRect()
+        // Store this as a computed?
+        const {
+          fogBrushSize,
+          fogBrushEffect
+        } = this.store.get()
+        const {
+          context,
+        } = this.get()
+
+        const x = e.clientX - rect.left
+        const y = e.clientY - rect.top
+
+        context.globalCompositeOperation = fogBrushEffect === 'remove' ? 'destination-out' : 'source-over'
+        context.strokeStyle = 'rgba(0,0,0,1)'
+        context.shadowColor = 'rgba(0,0,0,1)'
+        context.lineJoin = 'round'
+        context.lineCap = 'round'
+        context.lineWidth = fogBrushSize
+        context.shadowBlur = fogBrushSize / 4
+
+        context.lineTo(x, y)
+        context.stroke()
+        context.beginPath()
+        context.moveTo(x, y)
+      },
+      updateSize (w, h) {
+        const canvas = this.refs.canvas
+        const { context } = this.get()
+        const tempCanvas = this.refs.tempCanvas
+        const tempContext = tempCanvas.getContext('2d')
+
+        // Set it to the new width & height and draw the current canvas data into it
+        // TODO: Try having the actual drawn stuff remain and scale. See commented out code for initial tests.
+        tempCanvas.width = w
+        tempCanvas.height = h
+        tempContext.fillStyle = 'rgba(0,0,0,1)'
+        // tempContext.globalCompositeOperation = 'destination-out'
+        // tempContext.fillStyle = 'rgba(0,0,0,0.01)'
+        // tempContext.globalCompositeOperation = 'source-over'
+        tempContext.fillRect(0, 0, w, h)
+        tempContext.drawImage(canvas, 0, 0)
+
+        // Resize & clear the original canvas and copy back in the cached pixel data
+        canvas.width = w; 
+        canvas.height = h;
+        context.drawImage(tempCanvas, 0, 0);
+      }
+    }
+  }
+</script>

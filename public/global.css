@@ -1,0 +1,81 @@
+/**
+ * Sane defaults and some opinionated stuff.
+ * Some stuff is based on
+ * https://github.com/suitcss/base/blob/master/lib/base.css
+ * and
+ * https://github.com/tailwindcss/tailwindcss/blob/master/src/plugins/css/preflight.css
+ */
+
+:root {
+	--shadow: 1px 1px 0.5rem rgba(0,0,0,.25);
+}
+
+html::-webkit-scrollbar {
+	-webkit-appearance: none;
+	width: 0;
+	height: 0;
+}
+
+/* html, body {
+	position: relative;
+	width: 100%;
+	height: 100%;
+} */
+
+body {
+	background-color: #000;
+}
+
+fieldset {
+	margin: 0;
+	padding: 0;
+	min-width: 0;
+	border: 0;
+}
+
+legend {
+	box-sizing: border-box;
+	color: inherit;
+	display: table;
+	max-width: 100%;
+	padding: 0;
+	white-space: normal;
+}
+
+/**
+ * https://type-scale.com/?size=16&scale=1.250&text=A%20Visual%20Type%20Scale&font=Poppins&fontweight=400&bodyfont=Poppins&bodyfontweight=400&lineheight=1.45&backgroundcolor=white&fontcolor=%23333&preview=false
+ */
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6
+{
+	font-weight: 800;
+}
+
+h1, .h1 {
+	font-size: 3.052rem;
+}
+
+h2, .h2 {
+	font-size: 2.441rem;
+}
+
+h3, .h3 {
+	font-size: 1.953rem;
+}
+
+h4, .h4 {
+	font-size: 1.563rem;
+}
+
+h5, .h5 {
+	font-size: 1.25rem;
+}
+
+small, .small {
+	font-size: 0.8rem;
+}

@@ -1,0 +1,59 @@
+{#if $gridEnabled}
+  <div
+    style="
+      width: { $mapWidth }px;
+      height: { $mapHeight }px;
+      opacity: { $gridOpacity / 100};
+    "
+    class="grid"
+  >
+    <!-- {@debug squaresAmount} -->
+    {#each squares as i}
+      <div
+        class="grid__square"
+        style="
+          width: { squareSize }px;
+          height: { squareSize }px;
+          border-color: { $gridColor };
+        "
+      ></div>
+    {/each}
+  </div>
+{/if}
+
+<style>
+  .grid {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: hidden;
+    opacity: 0.5;
+    z-index: 20;
+  }
+  .grid.grid--hidden {
+    display: none;
+  }
+  .grid__square {
+    display: block;
+    position: relative;
+    float: left;
+    border: 1px solid #fff;
+  }
+</style>
+
+<script>
+  export default {
+    computed: {
+      squareSize: ({ $gridSquaresPerRow, $mapWidth }) => $mapWidth / $gridSquaresPerRow,
+      squares: ({ $gridSquaresPerRow, $mapHeight, squareSize }) => {
+        const amount = Math.floor($gridSquaresPerRow * ($mapHeight / squareSize))
+        if (amount > 0) {
+          return Array.from(Array(amount).keys())
+        }
+        return ['', '', '']
+      }
+    }
+  }
+</script>

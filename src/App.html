@@ -1,0 +1,30 @@
+<div class="app">
+  <Header class="header"></Header>
+  <Grid></Grid>
+  <Fog></Fog>
+  <Map></Map>
+</div>
+
+<style>
+  .app {
+    position: relative;
+    min-width: 100vw;
+    min-height: 100vh;
+  }
+</style>
+
+<script>
+  import Header from './components/Header.html'
+  import Fog from './components/Fog.html'
+  import Grid from './components/Grid.html'
+  import Map from './components/Map.html'
+
+  export default {
+    components: {
+      Header,
+      Fog,
+      Map,
+      Grid
+    }
+  }
+</script>
