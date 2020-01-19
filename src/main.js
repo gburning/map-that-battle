@@ -2,6 +2,7 @@ import App from './app.html'
 import { Store } from 'svelte/store.js';
 
 const store = new Store({
+	mapSrc: 'https://i.redd.it/jw7quc7o5oc31.jpg',
 	mapWidth: 0,
 	mapHeight: 0,
 	mapScale: 100,

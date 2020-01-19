@@ -3,9 +3,11 @@
   class="map"
   alt="Battlemap"
   on:load="mapLoaded()"
-  src="https://i.redd.it/jw7quc7o5oc31.jpg"
+  src="{$mapSrc}"
   style="width: {$mapWidth}px; height: {$mapHeight}px;"
 >
+
+<p>{$mapWidth}</p>
 
 <!--
   https://i.redd.it/jw7quc7o5oc31.jpg
@@ -75,6 +77,7 @@
           width = width * (mapScale / 100 )
           height = height * (mapScale / 100 )
         }
+        console.log('mapLoaded', width, height)
 
         this.store.set({
           mapWidth: width,

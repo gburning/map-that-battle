@@ -45,6 +45,14 @@
   </fieldset>
   <fieldset class="fieldset">
     <legend class="fieldset__legend h5">Map</legend>
+    <label class="control">
+      <span class="control__label">Image:</span>
+      <input
+        class="control__input control__input--full-width"
+        type="file"
+        on:change="handleImageSrc(event)"
+      />
+    </label>
     <label
       class="control"
       class:control--disabled="$mapFitWidth || $mapFitHeight"
@@ -198,3 +206,21 @@
     background-color: rgba(0, 0, 0, 0.05);
   }
 </style>
+
+<script>
+  export default {
+    methods: {
+      handleImageSrc (event) {
+        const { target: { files } } = event
+
+        if (files && files.length) {
+          var fr = new FileReader()
+          fr.onload = () => {
+            this.store.set({ mapSrc: fr.result })
+          }
+          fr.readAsDataURL(files[0])
+        }
+      }
+    }
+  }
+</script>
